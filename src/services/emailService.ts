@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import type { SentMessageInfo } from "nodemailer";
 import type { Client, Enviroments } from "../models/index.ts";
 
 const emailInfo: Enviroments = {
@@ -18,13 +19,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export default function sendEmail(target: Client): Promise<boolean> {
+export default function sendEmail(target: Client): Promise<SentMessageInfo> {
   // send mail with defined transport object
   return transporter.sendMail({
-    from: emailInfo.email, // sender address
-    to: emailInfo.email, // list of receivers
-    subject: "¡Consulta desde tu pagina web!", // Subject line
-    html: htmlMessage(target), // html body
+    from: emailInfo.email,
+    to: emailInfo.email,
+    subject: "¡Consulta desde tu pagina web!",
+    html: htmlMessage(target),
   });
 }
 
