@@ -37,7 +37,7 @@ app.post("/", sanitizeBody, async (req: Request, res: Response) => {
   }
 });
 
-app.get("/", (_req, res) => {
+app.get("/health", (_req, res) => {
   res.status(200).json({ successful: true });
 });
 
