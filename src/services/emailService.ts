@@ -24,13 +24,13 @@ export default function sendEmail(target: Client): Promise<SentMessageInfo> {
   return transporter.sendMail({
     from: emailInfo.email,
     to: emailInfo.email,
-    subject: "¡Consulta desde tu pagina web!",
+    subject: "¡Mensaje desde tu pagina web!",
     html: htmlMessage(target),
   });
 }
 
 const htmlMessage = (target: Client) => {
   const greeting = `<h1>Hola! Tienes un mensaje de <b>${target.name.split(" ")[0]}</b></h1>`;
-  const info = `<ul><li>Nombre Complet: ${target.name}</li><li>Email: ${target.email}</li><li>Mensaje: ${target.message}</li></ul>`;
+  const info = `<ul><li>Nombre Completo: ${target.name}</li><li>Email: ${target.email}</li><li>Mensaje: ${target.message}</li></ul>`;
   return `<div>${greeting}${info}</div>`;
 };

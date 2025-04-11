@@ -9,7 +9,14 @@ import { validationResult } from "express-validator";
 const app = express();
 const PORT = process.env.SERVER_PORT;
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://criszul.netlify.app",
+  methods: "POST",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParse.json());
 
 app.post("/", sanitizeBody, async (req: Request, res: Response) => {
@@ -19,6 +26,7 @@ app.post("/", sanitizeBody, async (req: Request, res: Response) => {
     res.status(400).json({ successful: false, errors: errors.array() });
     return;
   }
+
   try {
     const result = await sendEmail(req.body);
     res.status(200).json({ successful: result });
