@@ -5,20 +5,20 @@ import cors from "cors";
 import sendEmail from "./src/services/emailService.ts";
 import sanitizeBody from "./src/validators/validator.ts";
 import { validationResult } from "express-validator";
-import { apiKeyCheck } from "./src/middleware/keyCheck.ts";
+import { keyCheckMiddleware } from "./src/middleware/keyCheck.ts";
 
 const app = express();
 const PORT = process.env.SERVER_PORT;
 
 const corsOptions = {
   origin: process.env.ORIGIN,
-  methods: process.env.METHOD,
+  methods: process.env.METHOD?.split(","),
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
 
-app.use(apiKeyCheck);
 app.use(cors(corsOptions));
+app.use(keyCheckMiddleware);
 app.use(bodyParse.json());
 
 app.post("/", sanitizeBody, async (req: Request, res: Response) => {
@@ -29,15 +29,16 @@ app.post("/", sanitizeBody, async (req: Request, res: Response) => {
     return;
   }
 
-  console.log(req.body.email);
-  /*
   try {
     const result = await sendEmail(req.body);
     res.status(200).json({ successful: result });
   } catch (e) {
     res.status(500).json({ successful: false });
   }
-  */
+});
+
+app.get("/", (_req, res) => {
+  res.status(200).json({ successful: true });
 });
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));

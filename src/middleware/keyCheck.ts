@@ -1,18 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
 
-const ApiKey = {
-  key: "secret-key",
-};
-
 // get key from enviroment
 const key = process.env.SECRET;
 
-export const apiKeyCheck = (
+export const keyCheckMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ): void => {
-  const requestKey = req.header(ApiKey.key);
+  const requestKey = req.header(process.env.KEY_NAME!);
 
   // check match
   if (!requestKey || !key?.includes(requestKey)) {
