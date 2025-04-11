@@ -1,29 +1,24 @@
 import nodemailer from "nodemailer";
 import type { SentMessageInfo } from "nodemailer";
-import type { Client, Enviroments } from "../models/index.ts";
+import type { Client } from "../models/index.ts";
 
-const emailInfo: Enviroments = {
-  host: process.env.EMAIL_HOST,
-  password: process.env.EMAIL_PASS,
-  port: process.env.EMAIL_PORT,
-  email: process.env.EMAIL_ADDRESS,
-};
+const EMAIL = process.env.EMAIL_ADDRESS;
 
 const transporter = nodemailer.createTransport({
-  host: emailInfo.host,
-  port: Number(emailInfo.SERVER_PORT),
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
   secure: false, // true for port 465, false for other ports
   auth: {
-    user: emailInfo.email,
-    pass: emailInfo.password,
+    user: EMAIL,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
 export default function sendEmail(target: Client): Promise<SentMessageInfo> {
   // send mail with defined transport object
   return transporter.sendMail({
-    from: emailInfo.email,
-    to: emailInfo.email,
+    from: EMAIL,
+    to: EMAIL,
     subject: "¡Mensaje desde tu pagina web!",
     html: htmlMessage(target),
   });

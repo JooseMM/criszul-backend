@@ -9,7 +9,10 @@ const sanitizeBody = [
     .withMessage(
       "Nombre inválido, no puede ser menor a 2 caracteres ni mayor a 30",
     ),
-  body("email").isEmail().withMessage("Email inválido").normalizeEmail(),
+  body("email")
+    .isEmail()
+    .withMessage("Email inválido")
+    .normalizeEmail({ gmail_remove_dots: false }),
   body("message")
     .trim()
     .isLength({ min: 2, max: 240 })
