@@ -1,9 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
+import dotenv from "dotenv";
 
+dotenv.config();
 // get key from enviroment
 const key = process.env.SECRET;
 
-export const keyCheckMiddleware = (
+const keyCheckMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -17,3 +19,5 @@ export const keyCheckMiddleware = (
     next();
   }
 };
+
+export default keyCheckMiddleware;

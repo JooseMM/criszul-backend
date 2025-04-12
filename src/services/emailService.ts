@@ -1,7 +1,9 @@
 import nodemailer from "nodemailer";
 import type { SentMessageInfo } from "nodemailer";
-import type { Client } from "../models/index.ts";
+import type { Client } from "../models/index";
+import dotenv from "dotenv";
 
+dotenv.config();
 const EMAIL = process.env.EMAIL_ADDRESS;
 
 const transporter = nodemailer.createTransport({

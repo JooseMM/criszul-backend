@@ -1,14 +1,16 @@
 import express from "express";
-import type { Request, Response } from "express";
+import { Request, Response } from "express";
 import bodyParse from "body-parser";
 import cors from "cors";
-import sendEmail from "./src/services/emailService.ts";
-import sanitizeBody from "./src/validators/validator.ts";
 import { validationResult } from "express-validator";
-import { keyCheckMiddleware } from "./src/middleware/keyCheck.ts";
+import keyCheckMiddleware from "./middleware/keyCheck";
+import dotenv from "dotenv";
+import sanitizeBody from "./validators/validator";
+import sendEmail from "./services/emailService";
 
+dotenv.config();
 const app = express();
-const PORT = process.env.SERVER_PORT;
+const PORT = parseInt(process.env.PORT || "8080", 10);
 
 const corsOptions = {
   origin: process.env.ORIGIN,
@@ -41,4 +43,6 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ successful: true });
 });
 
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+app.listen(PORT || 8080, () =>
+  console.log(`Server listening on port: ${PORT}`),
+);
